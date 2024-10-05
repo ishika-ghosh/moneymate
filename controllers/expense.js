@@ -28,7 +28,7 @@ export const getAllExpense = async (req, res) => {
           $lte: todayEnd,
         },
       })
-      .populate("category", "name _id bgColor icon")
+      .populate("category", "name _id icon")
       .select("desc amount _id createdAt");
     return res.status(200).json(expenses);
   } catch (err) {
@@ -54,7 +54,7 @@ export const createExpense = async (req, res) => {
     });
     const createdExpense = await expense
       .findById(newExpense._id)
-      .populate("category", "name _id bgColor icon")
+      .populate("category", "name _id icon")
       .select("desc amount _id createdAt");
     return res.status(200).json(createdExpense);
   } catch (error) {
@@ -68,7 +68,7 @@ export const updateExpense = async (req, res) => {
     const updated = req.body;
     const updatedexpense = await expense
       .findByIdAndUpdate(_id, updated, { new: true })
-      .populate("category", "name _id bgColor icon")
+      .populate("category", "name _id icon")
       .select("desc amount _id createdAt");
     return res.status(200).json(updatedexpense);
   } catch (err) {

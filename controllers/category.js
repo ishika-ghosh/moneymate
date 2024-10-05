@@ -12,11 +12,9 @@ export const getAllCategory = async (req, res) => {
 
 export const createCategory = async (req, res) => {
   try {
-    const { name, budget, bgColor, icon } = req.body;
+    const { name, icon } = req.body;
     const newCategory = await category.create({
       name,
-      budget,
-      bgColor,
       icon,
       createdBy: req.userId,
     });
@@ -30,7 +28,7 @@ export const createCategory = async (req, res) => {
 export const updateCategory = async (req, res) => {
   try {
     const { id: _id } = req.params;
-    const { name, budget, bgColor, icon } = req.body;
+    const { name, icon } = req.body;
     const existingCategory = await category.findOne({
       _id,
       createdBy: req.userId,
@@ -43,13 +41,11 @@ export const updateCategory = async (req, res) => {
         existingCategory._id,
         {
           name,
-          budget,
-          bgColor,
           icon,
         },
         { new: true }
       )
-      .select("_id name budget bgColor icon");
+      .select("_id name icon");
     return res.status(200).json(updatedCategory);
   } catch (err) {
     console.log(err);
