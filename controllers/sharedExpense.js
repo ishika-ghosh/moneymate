@@ -128,13 +128,14 @@ export const getExpenseAnalysis = async (req, res) => {
         payerList[paidBy] += share;
         expensePerHead[user] += share;
         if (user == paidBy) return;
-        if (netBalances[user][paidBy] >= 0) {
+        if (netBalances[user].hasOwnProperty(paidBy)) {
           netBalances[user][paidBy] -= share;
         } else {
           netBalances[paidBy][user] += share;
         }
       });
     });
+
     for (let payer in netBalances) {
       if (Object.keys(payer).length > 0) {
         for (let ower in netBalances[payer]) {
@@ -164,7 +165,6 @@ export const getExpenseAnalysis = async (req, res) => {
         totalExpense: payerList[creditor],
       });
     }
-    console.log(finaldata);
     return res.status(200).json(finaldata);
   } catch (error) {
     console.log(error);
